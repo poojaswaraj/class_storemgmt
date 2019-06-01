@@ -7,8 +7,6 @@ while($row = mysqli_fetch_array($result))
 {
 	$fefe=$row['session_id'];
 }
-echo "dsf";
-
 	$sasa=$fefe+1;
 
 

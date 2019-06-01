@@ -1,0 +1,122 @@
+<style>
+
+    td {
+        border: none;
+        text-align: left;
+        padding: 8px;
+    }
+    
+    th {
+        border: none;
+        text-align: left;
+        padding: 8px;
+        background-color:#ddd;
+    
+    }
+</style>
+<?php 
+	$user_id=$_SESSION['login_user'];
+	$utype=$_SESSION['user_type']=$row['type']; 
+	$sub=mysqli_query($connection,"SELECT * FROM user_profile WHERE type='$utype' and id='$user_id'")or die(mysqli_error($connection));
+	$array=mysqli_fetch_array($sub);
+	$sub_id=$array['user_id'];
+	
+?>
+  <div class="col-lg-12">
+            <!-- /.panel-heading -->
+        <div class="panel-body">
+            <!-- Nav tabs -->
+    <?php if ($utype=='admin'){?>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#Yesterday" data-toggle="tab">Today's Plan</a></li>
+			<li><a href='dashboard.php?page=tommorrow_plan'>Tomorrow's Plan</a></li>
+            <li><a href='dashboard.php?page=Schedule_Pending'>Pending Schedules</a></li>
+		<li><?php echo "<a href='dashboard.php?page=empty_log'>";?> Empty Logs</a></li>
+      </ul>
+		<?php }
+		else{ ?>
+		<ul class="nav nav-tabs">
+            <li class="active"><a href="#Yesterday" data-toggle="tab">Today's Plan</a></li>
+			<li><a href='dashboard.php?page=tommorrow_plan'>Tomorrow's Plan</a></li>
+            <li><a href='dashboard.php?page=Schedule_Pending'>Pending Schedules</a></li>
+		</ul>
+	<?php } ?>
+
+<!-- Tab panes -->
+<div class="tab-content">
+	<div class="tab-pane fade in active" id="Yesterday">
+		<div class="panel-body"></div>
+		
+		
+			<table class="table table-striped table-bordered table-hover dataTable no-footer" id="example">
+				
+			<thead>
+		        <tr>
+
+		  <th>Date & Time</th>
+		  <th>Student Name</th>          
+          <th>Email Id</th>
+          <th>Phone Number</th>		 
+		  <th>Course List</th>
+          <th>Course Fee</th>
+		  <th>Assign To</th>
+          								
+				</tr>
+			</thead>
+			<tbody>
+			 <?php
+			
+					$run = mysqli_query($connection,"SELECT c.user_id,c.generated_by as cust_gen,c.assign_to,c.id,c.name,c.email,c.email,c.course_list,c.course_fee,c.contact_no,c.assign_to_name, g.* FROM generate_log g INNER JOIN student c ON c.id=g.student_id where g.sche_date=CURDATE() and c.status='active' and g.user_id='$user_id' and c.user_id='$user_id'")or die(mysqli_error($connection));
+				
+				while($row = mysqli_fetch_array($run))
+					{
+							$generated_by=$row['cust_gen'];					
+							$ud=$row['user_id'];
+							//$sud=$row['s_id'];
+	$sql = mysqli_query($connection,"SELECT * FROM user_profile where user_id='$user_id' and id='$generated_by'");
+
+							$assign_to=$row['assign_to'];
+							$assign_to_name=$row['assign_to_name'];
+							$sche_date=$row['sche_date'];	
+							$sche_time=$row['sche_time'];
+							$timestamp1= strtotime($sche_date);
+     	                  	$date1=date('d-m-Y',$timestamp1);
+     	                	$datetime=$date1.' '.' '.$sche_time;	
+							//$sche_type=$row['sche_type'];		
+							$student_id=$row['student_id'];		
+							$student_name=$row['name'];
+							$email=$row['email'];
+							$course_list=$row['course_list'];
+							$course_fee=$row['course_fee'];
+							$contact_no=$row['contact_no'];
+							//$name=$arr['name'];
+							
+								$sql = mysqli_query($connection,"SELECT * FROM user_profile where user_id='$user_id' and id='$generated_by'");
+							//$name_ass=$arr['name'];
+				?>
+					<tr>
+						<td><?php echo $datetime; ?></td>
+						<td>
+						<?php if($utype=='admin'){ ?>
+						<a href='dashboard.php?page=view_enquiry_plan&ed=<?php echo $student_id; ?>'><?php echo $student_name; ?></a>
+						<?php }else{ ?>
+						<a href='user_dashboard.php?page=view_enquiry_plan&ed=<?php echo $student_id; ?>'><?php echo $student_name; ?></a>
+						<?php } ?>
+						</td>
+							
+						<td><?php echo $email; ?></td>
+						<td><?php echo $contact_no; ?></td>
+						<td><?php echo $course_list; ?></td>
+						<td><?php echo $course_fee; ?></td>
+					
+						<td><?php echo $assign_to_name; ?></td>
+						
+					</tr>
+			 <?php }?>
+
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</div>
+   

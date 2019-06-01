@@ -60,6 +60,8 @@ if (isset($_POST['btn_verify']))
 	
 	$query = mysqli_query($connection,"UPDATE `user` SET `is_active`=1 WHERE `hash`='".$hash."'");
 	header('location:index.php');
+
+    echo "Add word";
 }
 ?>
 </body>

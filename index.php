@@ -11,7 +11,7 @@
     <title>Seven Mentor Class</title>
     <!-- fevicon of ebc invoice -->
     <link rel="icon" href="images/download1.png" type="image/x-icon">
-    
+
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
@@ -21,7 +21,7 @@
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
    <style type="text/css">
-      
+
       .backimg
         {
           background-image: url(images/signupbackground.jpg);
@@ -48,7 +48,7 @@
         <div class="panel-body">
         	<center><img src="images/download1.png" alt="test" height="70px" width="166px";></center>
         </div>
-        
+
         <div class="panel-body">
           <form role="form" id="myform" name="form1"  method="post">
             <fieldset>
@@ -69,12 +69,12 @@
                   </label>
               </div>
               <!-- Change this to a button or input when using this as a form -->
-              
+
               <button type="submit" name="submit" id="save" class="btn btn-lg btn-primary btn-block">Sign In</button>
               <p id="msg"></p>
               <?php if(isset($_GET['status'])&&$_GET['status']==1)
 					echo "<font color=red>Invalid Username Or Password..</font>";
-							  
+
 					if(isset($_GET['status'])&&$_GET['status']==2)
 					echo "<font color=green>Username is your mail id</font>";
 			  ?>
@@ -92,7 +92,7 @@ $('form#myform').submit(function(e)
 {
     e.preventDefault();
     $('button#save').button('loading');
-            
+
     $.ajax({
               url:'login_code.php',
               type: "POST",
@@ -101,12 +101,12 @@ $('form#myform').submit(function(e)
               processData:false,
               success: function(data)
               {
-                
+
                 $('button#save').button('reset');
                   if(data==1)
                   {
                     window.location.href= "admin/dashboard.php";
-                    // header("location: dashboard.php"); 
+                    // header("location: dashboard.php");
                   }
                   else if(data==2)
                   {
@@ -141,8 +141,9 @@ $('form#myform').submit(function(e)
                     $('#msg').html('Your package is expire');
                     $('#msg').css('color','red');
                   }
+                  //error solve
               }
-          });             
+          });
 });
 
 </script>
@@ -153,14 +154,14 @@ $('form#myform').submit(function(e)
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-	
+
     <!-- Script to Activate the Carousel -->
     <script>
     $('.carousel').carousel({
         interval: 5000 //changes the speed
     })
     </script>
-
+// add comment
 </body>
 
 </html>
